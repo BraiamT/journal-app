@@ -13,7 +13,7 @@ export const AuthLayout = ({ children, cardTitle = '' }) => {
 
             <Grid
                 item
-                className="box-shadow"
+                className="box-shadow animate__animated animate__fadeIn animate__faster"
                 xs={ 3 } // Tamaño en pantallas pequeñas
                 sx={{
                     width: { md: 500, sm: 500 },

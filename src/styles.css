@@ -1,3 +1,49 @@
 .box-shadow {
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* button */
+::-webkit-scrollbar-button {
+    background: #222; 
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #333; 
+    border-radius: 200px;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #666; 
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgb(47, 0, 72); 
+}
+/* The track NOT covered by the handle.
+::-webkit-scrollbar-track-piece {
+    background: #000; 
+}
+/* Corner */
+::-webkit-scrollbar-corner {
+    background: #999; 
+}
+/* Resizer */
+::-webkit-resizer {
+    background: #111; 
+}
+
+/* Shake Effect for Inputs */
+@keyframes shake {
+    0% { margin-left: 0rem; }
+    25% { margin-left: 0.5rem; }
+    75% { margin-left: -0.5rem; }
+    100% { margin-left: 0rem; }
+}
+
+.errorShake{
+    animation: shake 0.2s ease-in-out 0s 2;
+}

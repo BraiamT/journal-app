@@ -1,13 +1,56 @@
 import { Link as RouterLink } from 'react-router-dom';
 import { Google } from '@mui/icons-material';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../layout/AuthLayout';
+import { useForm } from '../../hooks/useForm';
+import { checkingAuth, startGoogleSigIn, startLogin } from '../../store/auth';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMemo, useState } from 'react';
+
+
+const formRegexs = {
+    email: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+}
+
+const formValidations = {
+    // email: [ (value) => value.includes('@'), 'Enter a valid email' ],
+    email: [ (value) => formRegexs.email.test(value), 'Enter a valid email' ],
+    password: [ (value) => value.length >= 6, 'Password must have at least 6 characters' ]
+}
+
 
 export const LoginPage = () => {
+
+    const { status, errorMessage } = useSelector( state => state.auth );
+
+    const dispatch = useDispatch();
+    const [formSubmitted, setFormSubmitted] = useState(false);
+
+    const { email, password, onInputChange, isFormValid, emailValid, passwordValid, formState } = useForm({
+        email: '',
+        password: ''
+    }, formValidations);
+
+    const isAuthenticating = useMemo(() => status === 'checking-auth', [status]);
+
+    const onSumbit = ( event ) => {
+        event.preventDefault();
+        setFormSubmitted(true);
+
+        if ( !isFormValid ) return;
+    
+        dispatch( startLogin(formState) );
+    }
+
+    const onGoogleSigin = () => {
+        console.log('Signing in with Google...');
+        dispatch( startGoogleSigIn() );
+    }
+
     return (
         <AuthLayout cardTitle="Login">
 
-            <form>
+            <form onSubmit={ onSumbit }>
 
                 <Grid container>
 
@@ -15,8 +58,14 @@ export const LoginPage = () => {
                         <TextField
                             label="Email"
                             type="email"
+                            name="email"
+                            value={ email }
                             placeholder="cool.email@exaple.com"
                             fullWidth
+                            onChange={ onInputChange }
+                            error={ !!emailValid && formSubmitted }
+                            className={ (!!emailValid && formSubmitted) ? 'errorShake' : '' }
+                            helperText={ formSubmitted ? emailValid : null }
                         />
                     </Grid>
 
@@ -24,20 +73,44 @@ export const LoginPage = () => {
                         <TextField
                             label="Password"
                             type="password"
+                            name="password"
+                            value={ password }
                             placeholder="*********"
                             fullWidth
+                            onChange={ onInputChange }
+                            error={ !!passwordValid && formSubmitted }
+                            className={ (!!passwordValid && formSubmitted) ? 'errorShake' : '' }
+                            helperText={ formSubmitted ? passwordValid : null }
                         />
                     </Grid>
 
                     <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
 
+                        <Grid
+                            item
+                            xs={ 12 }
+                            display={ !!errorMessage ? '' : 'none' }
+                        >
+                            <Alert severity='error'>{ errorMessage }</Alert>
+                        </Grid>
+
                         {/* More sizes: xs sm md xl */}
                         <Grid item xs={ 12 } sm={ 6 }>
-                            <Button variant="contained" fullWidth>Login</Button>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                disabled={ isAuthenticating }
+                                fullWidth
+                            >Login</Button>
                         </Grid>
 
                         <Grid item xs={ 12 } sm={ 6 }>
-                            <Button variant="contained" fullWidth>
+                            <Button
+                                variant="contained"
+                                fullWidth
+                                disabled={ isAuthenticating }
+                                onClick={ onGoogleSigin }
+                            >
                                 <Google />
                                 <span style={{ marginLeft: 8 }}>Google</span>
                                 {/* <Typography sx={{ ml: 1 }}>Google</Typography> */}
