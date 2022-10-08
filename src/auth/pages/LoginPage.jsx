@@ -18,6 +18,10 @@ const formValidations = {
     password: [ (value) => value.length >= 6, 'Password must have at least 6 characters' ]
 }
 
+const formData = {
+    email: '',
+    password: ''
+}
 
 export const LoginPage = () => {
 
@@ -26,10 +30,7 @@ export const LoginPage = () => {
     const dispatch = useDispatch();
     const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const { email, password, onInputChange, isFormValid, emailValid, passwordValid, formState } = useForm({
-        email: '',
-        password: ''
-    }, formValidations);
+    const { email, password, onInputChange, isFormValid, emailValid, passwordValid, formState } = useForm(formData, formValidations);
 
     const isAuthenticating = useMemo(() => status === 'checking-auth', [status]);
 
@@ -43,7 +44,6 @@ export const LoginPage = () => {
     }
 
     const onGoogleSigin = () => {
-        console.log('Signing in with Google...');
         dispatch( startGoogleSigIn() );
     }
 
