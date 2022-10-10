@@ -12,16 +12,16 @@
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: #333; 
+    background: rgb(60, 0, 92);
     border-radius: 200px;
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-    background: #666; 
+    background: rgb(76, 0, 117); 
 }
 /* Track */
 ::-webkit-scrollbar-track {
-    background: rgb(47, 0, 72); 
+    background: #222; 
 }
 /* The track NOT covered by the handle.
 ::-webkit-scrollbar-track-piece {

@@ -1,4 +1,5 @@
 import { sigInWithGoogle, signUpUser, login as loginProvider, logoutFirebase } from '../../firebase/providers';
+import { clearEntriesOnLogout } from '../journal/journalSlice';
 import { checkingCredentials, login, logout } from './authSlice';
 
 export const checkingAuth = ( email, password ) => {
@@ -60,7 +61,7 @@ export const startLogin = ({ email, password }) => {
                 errorMessage = result.errorMessage;
                 break;
         }
-        // console.log(result);
+        
         if ( !result.ok ) return dispatch( logout({ errorMessage }) );
 
         dispatch( login(result) );
@@ -72,6 +73,7 @@ export const startLogOut = () => {
     return async( dispatch ) => {
         await logoutFirebase();
 
+        dispatch( clearEntriesOnLogout() );
         dispatch( logout({}) );
     }
 }

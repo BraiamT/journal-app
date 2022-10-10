@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { setSelectedEntry } from '../../store/journal';
 
-export const SideBarItem = ({ entry, title, body }) => {
+export const SideBarItem = ({ id, title, body, date, imageUrls = [] }) => {
     
     const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ export const SideBarItem = ({ entry, title, body }) => {
     }, [ title ]);
 
     const onSelectEntry = () => {
-        dispatch( setSelectedEntry(entry) );
+        dispatch( setSelectedEntry({ id, title, body, date, imageUrls }) );
     }
 
     return (

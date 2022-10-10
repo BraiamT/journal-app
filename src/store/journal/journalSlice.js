@@ -25,13 +25,14 @@ export const journalSlice = createSlice({
         },
         setSelectedEntry: ( state, action ) => {
             state.selectedEntry = action.payload;
+            state.messageSaved = '';
         },
         setEntries: ( state, action ) => {
             state.entries = action.payload;
         },
         setSaving: ( state ) => {
             state.isSaving = true;
-            // TODO: Mensaje de error...
+            state.messageSaved = '';
         },
         entryUpdated: ( state, action ) => {
             state.isSaving = false;
@@ -42,10 +43,21 @@ export const journalSlice = createSlice({
                 return entry;
             });
 
-            // TODO: Mostar mensaje de actualizado
+            state.messageSaved = `${ action.payload.title }, was updated succesfully`;
         },
-        deleteNoteById: ( state, action ) => {
-
+        setPhotosToSelectedEntry: ( state, action ) => {
+            state.selectedEntry.imageUrls = [ ...state.selectedEntry.imageUrls, ...action.payload ];
+            state.isSaving = false;
+        },
+        clearEntriesOnLogout: ( state ) => {
+            state.isSaving = false;
+            state.messageSaved = '';
+            state.entries = [];
+            state.selectedEntry = null;
+        },
+        deleteEntryById: ( state, action ) => {
+            state.selectedEntry = null;
+            state.entries = state.entries.filter( entry => entry.id !== action.payload);
         },
     }
 });
@@ -54,10 +66,12 @@ export const journalSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     addNewEntry,
-    deleteNoteById,
+    clearEntriesOnLogout,
+    deleteEntryById,
     entryUpdated,
     savingEntry,
     setEntries,
+    setPhotosToSelectedEntry,
     setSaving,
     setSelectedEntry,
 } = journalSlice.actions;
