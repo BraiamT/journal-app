@@ -1,6 +1,7 @@
 
 export const fileUpload = async( file ) => {
-    if ( !file ) throw new Error('No file found!')
+    // if ( !file ) throw new Error('No file found!');
+    if ( !file ) return null;
 
     const cloudUrl = 'https://api.cloudinary.com/v1_1/braiamt/image/upload';
 
@@ -23,8 +24,9 @@ export const fileUpload = async( file ) => {
 
     } catch ( error ) {
 
-        console.log( error );
-        throw new Error( error.message );
+        // console.log( error );
+        // throw new Error( error.message );
+        return null;
 
     }
 }
