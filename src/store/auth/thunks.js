@@ -2,7 +2,7 @@ import { sigInWithGoogle, signUpUser, login as loginProvider, logoutFirebase } f
 import { clearEntriesOnLogout } from '../journal/journalSlice';
 import { checkingCredentials, login, logout } from './authSlice';
 
-export const checkingAuth = ( email, password ) => {
+export const checkingAuth = () => {
     return async( dispatch ) => {
 
         dispatch( checkingCredentials() );

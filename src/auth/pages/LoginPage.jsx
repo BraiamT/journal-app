@@ -3,7 +3,7 @@ import { Google } from '@mui/icons-material';
 import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/useForm';
-import { checkingAuth, startGoogleSigIn, startLogin } from '../../store/auth';
+import { startGoogleSigIn, startLogin } from '../../store/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo, useState } from 'react';
 
@@ -50,7 +50,7 @@ export const LoginPage = () => {
     return (
         <AuthLayout cardTitle="Login">
 
-            <form onSubmit={ onSumbit }>
+            <form aria-label='login-form' onSubmit={ onSumbit }>
 
                 <Grid container>
 
@@ -74,6 +74,7 @@ export const LoginPage = () => {
                             label="Password"
                             type="password"
                             name="password"
+                            inputProps={{ 'data-testid': 'password-txt' }}
                             value={ password }
                             placeholder="*********"
                             fullWidth
@@ -108,6 +109,7 @@ export const LoginPage = () => {
                             <Button
                                 variant="contained"
                                 fullWidth
+                                aria-label="btn-google-login"
                                 disabled={ isAuthenticating }
                                 onClick={ onGoogleSigin }
                             >
